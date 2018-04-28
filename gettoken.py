@@ -25,7 +25,7 @@ def home():
 
 			# db.session.rollback()
 		return redirect(url_for("post"))
-	return render_template("base.html",form = form)
+	return render_template("form01.html",form=form)
 
 
 dict = {}

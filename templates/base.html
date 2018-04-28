@@ -1,26 +1,26 @@
 
-{ % import "bootstrap/wtf.html" as wtf % }
-{ % extends 'bootstrap/base.html' % }
-{ % extends "base.html" %}
+<!DOCTYPE html>
+<html{% block html_attribs %}{% endblock html_attribs %}>
+{%- block html %}
+  <head>
+    {%- block head %}
+    <title>{% block title %}{{title|default}}{% endblock title %}</title>
 
-<html>
+    {%- block styles %}
+    <!-- 把自动寻找宏改成静态路径 -->
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    {%- endblock styles %}
+    {%- endblock head %}
+  </head>
 
-<head>
-  {%  block head %}
-    <title>
-        {% block title %}{% endblock %} -My Appliction
-    </title>
-  {% endblock %}
-</head>
-
-<body>
-{% block page_content %}
-
-
-    {{ wtf.quick_form(form) }}
-
-
-{% endblock %}
-</body>
-
+  <body{% block body_attribs %}{% endblock body_attribs %}>
+    {% block body -%}
+    {% block navbar %}
+    {%- endblock navbar %}
+    {% block content -%}
+    {%- endblock content %}
+    {%- endblock body %}
+  </body>
+{%- endblock html %}
 </html>
+

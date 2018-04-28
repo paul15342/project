@@ -1,7 +1,8 @@
-
 {% extends "base.html" %}
-{% extends "bootstrap/base.html" %}
-{% block body %}
+{# extends一定要写第一行 #}
+{% import "bootstrap/wtf.html" as wtf %}
 
-    <p>wtf.quick_form(form)</p>
-{% endblock %}
+{ % endblock title % }
+{% block content %}
+  {{ wtf.quick_form(form)}}
+{% endblock content %}
