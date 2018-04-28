@@ -2,25 +2,30 @@ from models import  Info,db
 from flask import render_template,request,redirect,url_for
 from __init__ import create_app
 import requests,json,hashlib,base64
+from form import DataForm
 app = create_app()
 
 @app.route("/",methods=['GET','POST'])
 def home():
+	form = DataForm()
 	if request.method == "POST":
-		address = request.form.get("address")
-		agent_id = request.form.get("agent_id")
-		agent_key = request.form.get("agent_key")
-		user_name = request.form.get("user_name")
-		order_num = request.form.get("order_num")
-		info = Info(address=request.form.get("address"),agent_id=agent_id,agent_key=agent_key,user_name=user_name,
-					order_num=order_num)
-		db.session.add(info)
 
+		#同过html获取表单数据
+		# address = request.form.get("address")
+		# agent_id = request.form.get("agent_id")
+		# agent_key = request.form.get("agent_key")
+		# user_name = request.form.get("user_name")
+		# order_num = request.form.get("order_num")
+		#info = Info(address=request.form.get("address"),agent_id=agent_id,agent_key=agent_key,user_name=user_name,
+		#			order_num=order_num)
+		info = Info(address=form.address.data,agent_id=form.address.data,agent_key = form.agent_key.data,
+					user_name=form.user_name.data,order_num =form.order_num.data)
+		db.session.add(info)
 		db.session.commit()
 
 			# db.session.rollback()
 		return redirect(url_for("post"))
-	return render_template("form.html")
+	return render_template("base.html",form = form)
 
 
 dict = {}
