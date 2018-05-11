@@ -11,6 +11,6 @@ class Info(db.Model):
 	address =db.Column(db.String(30))
 	agent_id = db.Column(db.String)
 	agent_key = db.Column(db.String)
-	user_name = db.Column(db.String,unique=True)
+	user_name = db.Column(db.String)
 	order_num = db.Column(db.Integer)
 
