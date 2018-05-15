@@ -11,6 +11,7 @@ class info:
         auth_token ={}
         login_token = {}
 
+    #从数据库取数据
     def get_info(self):
         sql = "select * from 'api_info' order by id desc"  #倒叙排序,取最新一次存入的数据
         address = db.session.execute(sql)
@@ -22,6 +23,7 @@ class info:
         self.dict['order_num'] = info[5]
         return self.dict
 
+    #代理授权token所需参数
     def get_auth_token(self):
         dict = self.get_info()
         auth_token = {
@@ -31,9 +33,10 @@ class info:
             'kv': {
                 'agentID': '{}'.format(dict["agent_id"]),
                 'secret_key': '{}'.format(dict['agent_key'])}
-        },
+        }
         return auth_token
 
+    #获取用户登录token所需参数
     def get_login_token(self):
         dict = self.get_info()
         login_token = {
@@ -45,14 +48,14 @@ class info:
         }
         return login_token
 
-
+    #获取用户登录token
     def post(self):
         auth_token = self.get_auth_token()[0]
         login_token = self.get_login_token()
         r = requests.post(url=auth_token['url'], data=auth_token['kv'], timeout=5)
         text = json.loads(r.text)
-
         token = text['data']['token']
+        #对参数进行加密处理
         m = hashlib.md5()
         id = bytes(auth_token['kv']['agentID'], "utf-8")
         m.update(id)
@@ -65,6 +68,7 @@ class info:
         b_a_param = bytes(a_param, "utf-8")
         agenttoken = base64.b64encode(b_a_param)
         login_token['kv']['token'] = agenttoken
+
         r = requests.post(url=login_token['url'], data=login_token['kv'], timeout=5)
         logintoken = json.loads(r.text)['data']['token']
         return logintoken
